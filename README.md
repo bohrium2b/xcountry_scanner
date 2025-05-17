@@ -10,6 +10,7 @@ Installing toolkit. You need:
  * pnpm
 
 Find the shell command installation guide here: https://github.com/python-poetry/poetry-plugin-shell
+
 In this directory, run `poetry install` and `poetry shell`.
 
 In the `frontend/` run `pnpm install`.
