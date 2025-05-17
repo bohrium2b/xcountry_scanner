@@ -1,0 +1,94 @@
+{% extends "account/layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Sign Up</h2>
+                </div>
+                <div class="card-body">
+                    <form id="signupForm" method="post" onchange="validateForm()">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username:</label>
+                            <input type="text" id="username" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email:</label>
+                            <input type="email" id="email" name="email" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password1" class="form-label">Password:</label>
+                            <input type="password" id="password1" name="password1" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password2" class="form-label">Confirm Password:</label>
+                            <input type="password" id="password2" name="password2" class="form-control" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Sign Up<div class="hx-indicator"></div></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('signupForm').addEventListener('submit', function (event) {
+        const form = event.target;
+        const password1 = document.getElementById('password1').value;
+        const password2 = document.getElementById('password2').value;
+
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        // Custom validation: Check if passwords match
+        if (password1 !== password2) {
+            event.preventDefault();
+            event.stopPropagation();
+            const password2Field = document.getElementById('password2');
+            password2Field.setCustomValidity('Passwords do not match');
+            password2Field.reportValidity();
+        } else {
+            document.getElementById('password2').setCustomValidity('');
+        }
+
+        // Password strength checker
+        const passwordStrengthMessage = document.getElementById('passwordStrengthMessage');
+
+        if (password1.length >= 8) {
+            passwordStrengthMessage.textContent = 'Password length is sufficient';
+            passwordStrengthMessage.style.color = 'green';
+        } else {
+            passwordStrengthMessage.textContent = 'Password must be at least 8 characters long';
+            passwordStrengthMessage.style.color = 'red';
+        }
+
+        form.classList.add('was-validated');
+        });
+
+        // Add a password strength message element dynamically
+        const passwordField = document.getElementById('password1');
+        const passwordStrengthMessage = document.createElement('div');
+        passwordStrengthMessage.id = 'passwordStrengthMessage';
+        passwordStrengthMessage.style.marginTop = '5px';
+        passwordField.parentNode.appendChild(passwordStrengthMessage);
+
+        passwordField.addEventListener('input', function () {
+        const password = passwordField.value;
+        if (password.length >= 8) {
+            passwordStrengthMessage.textContent = 'Password length is sufficient';
+            passwordStrengthMessage.style.color = 'green';
+        } else {
+            passwordStrengthMessage.textContent = 'Password must be at least 8 characters long';
+            passwordStrengthMessage.style.color = 'red';
+        }
+        });
+</script>
+{% endblock %}

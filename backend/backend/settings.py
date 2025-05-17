@@ -27,6 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+LOGIN_URL = '/account/login/'
+LOGIN_REDIRECT_URL = '/account/profile/'
+
 
 # Application definition
 
@@ -39,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'api',  # Your app name
+    'account'
 ]
 
 MIDDLEWARE = [

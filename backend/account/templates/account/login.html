@@ -1,0 +1,49 @@
+{% extends "account/layout.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h2>Login</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        {% if error %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username:</label>
+                            <input type="text" id="username" name="username" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" id="password" name="password" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100" hx-post="" hx-target="body"
+                            hx-push-url="true" hx-swap="outerHTML">
+                            <span class="htmx-indicator">
+                                <div class="spinner-grow align-text-center" style="height: 1em; width: 1em;" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </span>Login <span class="htmx-indicator">
+                                <div class="spinner-grow align-text-center" style="height: 1em; width: 1em;" role="status">
+                                    <span class="visually-hidden">Loading...</span>
+                                </div>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p>Don't have an account? <a hx-get="{% url 'account:signup' %}" hx-target="body" hx-push-url="true"
+                            hx-swap="outerHTML" href="{% url 'account:signup' %}">Sign up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "account/layout.html" %}
+
+{% block content %}
+<div class="d-flex justify-content-center align-items-center" style="height: 90vh;">
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <h2 class="text-center">Are you sure you want to log out?</h2>
+            <p class="text-center">Click the button below to log out.</p>
+        </div>
+        <div class="mb-3">
+            <div class="text-center">
+                <button type="submit" hx-post="" hx-target="body" hx-swap="outerHTML" class="btn btn-danger">Log Out</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}

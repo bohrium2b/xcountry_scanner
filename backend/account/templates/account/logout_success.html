@@ -1,0 +1,54 @@
+{% extends "account/layout.html" %}
+
+{% block content %}
+<div class="logout-message" hx-trigger="load delay:3s" hx-get="{% url 'account:login' %}" hx-target="body" hx-swap="innerHTML" hx-push-url="true">
+    <h1>We're sad to see you go!</h1>
+</div>
+<div class="logout-icon">
+    <i class="bi bi-emoji-frown animated-icon"></i>
+</div>
+<script>
+    
+</script>
+<style>
+    .logout-message h1 {
+        color: #ff6b6b;
+        font-family: 'Arial', sans-serif;
+        text-shadow: 2px 2px #ffcccb;
+    }
+
+    .logout-icon {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .animated-icon {
+        font-size: 50px;
+        color: #ff6b6b;
+        animation: bounce 1.5s infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-10px);
+        }
+    }
+</style>
+<style>
+    .logout-message h1 {
+        animation: fadeOut 3s ease-in-out forwards;
+    }
+
+    @keyframes fadeOut {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
+</style>
+{% endblock %}
