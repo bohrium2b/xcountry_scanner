@@ -12,6 +12,9 @@ def index(request):
 
 
 def signup(request):
+    if request.user.is_authenticated:
+        # If the user is already authenticated, redirect to the profile page
+        return redirect('account:profile')
     if request.method == 'POST':
         # Handle the signup logic here
         username = request.POST.get('username')
@@ -37,6 +40,9 @@ def signup_success(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        # If the user is already authenticated, redirect to the profile page
+        return redirect('account:profile')
     if request.method == 'POST':
         # Handle the login logic here
         username = request.POST.get('username')
