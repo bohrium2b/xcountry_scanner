@@ -9,7 +9,7 @@ Installing toolkit. You need:
  * Python, Pip, Poetry (with Shell extension)
  * pnpm
 
-Find the shell command installation guide here: https://github.com/python-poetry/poetry-plugin-shell
+Find the `poetry shell` command installation guide here: https://github.com/python-poetry/poetry-plugin-shell
 
 In this directory, run `poetry install` and `poetry shell`.
 
