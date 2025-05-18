@@ -6,7 +6,7 @@ An experimental (alpha) race place recording system.
 ## Development Instructions
 
 Installing toolkit. You need:
- * Python, Pip, Poetry (with Shell extension)
+ * Python, Pip, Poetry with shell command (see below)
  * pnpm
 
 Find the `poetry shell` command installation guide here: https://github.com/python-poetry/poetry-plugin-shell
