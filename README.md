@@ -15,7 +15,11 @@ In this directory, run `poetry install` and `poetry shell`. If it doesn't work, 
 
 In the `frontend/` run `pnpm install`. If it doesn't work, try running with sudo.
 
+Then run `python3 manage.py makemigrations` and `python3 manage.py migrate`.
 
 The backend is on Django. In order to access the app for development testing, you need to create an account/admin through the CLI.
+
 Inside your Python shell, run `python3 manage.py createsuperuser`. Make sure you NEVER commit `db.sqlite3`.
+
+Then, to run the localhost server, `python3 manage.py runserver`.
 
