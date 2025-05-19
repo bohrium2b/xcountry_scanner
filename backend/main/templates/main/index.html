@@ -1,0 +1,24 @@
+{% extends "account/layout.html" %}
+{% load static %}
+{% block title %}
+XCResults
+{% endblock %}
+
+{% block content %}
+<div style="text-align: center; margin-top: 50px;">
+    <img src="{% static 'logo.svg' %}" alt="Logo" style="height: 100px; margin-bottom: 20px;">
+    <h1>XCResults</h1>
+    <p>Welcome to your XCResults hub. Use the options below to update your details</p>
+    <div style="margin-top: 30px;">
+        {% if user.is_authenticated %}
+        <p>Logged in as: <strong>{% if user.first_name %}{{ user.first_name }}{% else %}{{user.username}}{%endif%}</strong></p>
+        <a href="{% url 'account:index' %}" hx-boost="true" class="btn btn-success" style="margin: 10px;">Update Account</a>
+        <a href="{% url 'main:backoffice' %}" hx-boost="true" class="btn btn-primary" style="margin: 10px;">Enter the Portal</a>
+        {% else %}
+        <p>You are not logged in. Please log in to manage your account.</p>
+        <a href="{% url 'account:login' %}" hx-get="{% url 'account:login' %}" hx-target="body" hx-push-url="true" hx-swap="outerHTML" class="btn btn-primary" style="margin: 10px;">Login</a>
+
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

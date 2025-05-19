@@ -1,4 +1,4 @@
-import { AppBar, Button, Typography, Box,  Toolbar, IconButton, Table, TableCell, TableHead, TableBody, TableRow, TableContainer, Paper } from "@mui/material";
+import { AppBar, Button, Typography, Box, Toolbar, IconButton, Table, TableCell, TableHead, TableBody, TableRow, TableContainer, Paper, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
 
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
@@ -10,10 +10,12 @@ import dayjs from "dayjs";
 
 export const ViewEvent = () => {
     const { id } = useParams();
-    const [event, setEvent] = useState<Event>({"name": "", "date": "0000 00 00", "id": Number(id), "location": "Nowhere", "description": ""});
-    const [results, setResults] = useState<Result[]>([])
+    const [event, setEvent] = useState<Event>({ "name": "", "date": "0000 00 00", "id": Number(id), "location": "Nowhere", "description": "" });
+    const [results, setResults] = useState<Result[]>([]);
+    const [deleteDialog, setDeleteDialog] = useState(false);
+    const navigate = useNavigate();
     // Get event
-    const getEvent = useEffect(() => {
+    useEffect(() => {
         axios.get(`${getRootUri()}/api/events/${id}/`).then((response) => {
             if (!response) {
                 return (<p>Error: No response returned.</p>)
@@ -23,18 +25,18 @@ export const ViewEvent = () => {
             setEvent(response.data);
         })
     }, [id]);
-    const getResults = useEffect(() => {
+    useEffect(() => {
         const interval = setInterval(() => {
             axios.get(`${getRootUri()}/api/events/${id}/get_results/`).then((response) => {
-            if (!response) {
-                setResults([]);
-            } else {
-                setResults(response.data);
-            }
+                if (!response) {
+                    setResults([]);
+                } else {
+                    setResults(response.data);
+                }
             });
         }, 2000);
 
-        return () => clearInterval(interval);      
+        return () => clearInterval(interval);
     }, [id])
     return (
         <>
@@ -51,34 +53,57 @@ export const ViewEvent = () => {
             <Box sx={{ padding: 2 }}>
                 <Typography variant="h4">Viewing Event {event.name}</Typography>
                 <Paper>
-                    <Typography variant="h6">Event Details</Typography>
-                    <Typography variant="body1">Description: {event.description}</Typography>
-                    <Typography variant="body1">Date: {dayjs(event.date)}</Typography>
-                    <Typography variant="body1">Location: {event.location}</Typography>
-                    <Typography variant="body1">ID: {event.id}</Typography>
+                    <Box sx={{ padding: 2 }}>
+                        <Typography variant="h6">Event Details</Typography>
+                        <Typography variant="body1">Description: {event.description}</Typography>
+                        <Typography variant="body1">Date: {dayjs(event.date).format('D MMMM, YYYY')}</Typography>
+                        <Typography variant="body1">Location: {event.location}</Typography>
+                        <Typography variant="body1">ID: {event.id}</Typography>
+                    </Box>
+
                 </Paper>
-                <Button component={Link} to={`record`}>Record Results</Button>
+                <Box sx={{ marginTop: 2, padding: 2, backgroundColor: "#FBFBFB", borderRadius: 2 }}>
+                    <Button component={Link} to={`record`} sx={{margin: 1}}>Record Results</Button>
+                    <Button color="error" variant="contained" sx={{margin:1}} onClick={() => {
+                        // Show a dialog box
+                        setDeleteDialog(true);
+                    }}>Delete</Button>
+                </Box>
                 <TableContainer component={Paper} sx={{ marginTop: 2 }}>
-                <Table>
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Place</TableCell>
-                            <TableCell>Student ID</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {results.map((result) => (
-                            <TableRow key={result.id}>
-                                <TableCell>{result.num}</TableCell>
-                                <TableCell>{result.id}</TableCell>
+                    <Table>
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Place</TableCell>
+                                <TableCell>Student ID</TableCell>
                             </TableRow>
-                        ))}
-                        {results.length == 0 && (
-                            <Typography>No results recorded yet.</Typography>
-                        )}
-                    </TableBody>
-                </Table>
+                        </TableHead>
+                        <TableBody>
+                            {results.map((result) => (
+                                <TableRow key={result.id}>
+                                    <TableCell>{result.num}</TableCell>
+                                    <TableCell>{result.id}</TableCell>
+                                </TableRow>
+                            ))}
+                            {results.length == 0 && (
+                                <TableRow><TableCell><Typography>No results recorded yet.</Typography></TableCell></TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
                 </TableContainer>
+                <Dialog open={deleteDialog}>
+                    <DialogTitle>
+                        Delete Event {event.name}?
+                    </DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Are you sure you want to delete this event with {results.length} completed results? This action cannot be undone.
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={() => {setDeleteDialog(false)}} color="primary" variant="contained">Cancel</Button>
+                        <Button onClick={() => { axios.delete(`${getRootUri()}/api/events/${event.id}/`); navigate("/") }} color="error" variant="contained">Delete</Button>
+                    </DialogActions>
+                </Dialog>
             </Box>
         </>
     )

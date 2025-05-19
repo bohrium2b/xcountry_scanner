@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AppBar, Typography, Box, Button, Toolbar, IconButton } from "@mui/material";
+import { AppBar, Typography, Box, Button, Toolbar } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useState } from "react"
 import { useEffect } from "react";
@@ -11,7 +11,7 @@ import dayjs from "dayjs";
 export const HomePage = () => {
     const [events, setEvents] = useState<Event[]>([]);
     // Get events from /api/events/
-    const getEvents = useEffect(() => {
+    useEffect(() => {
         axios.get(`${getRootUri()}/api/events/`).catch(error => {
             console.error("Error fetching events:", error);
         }).then(response => {
@@ -52,6 +52,12 @@ export const HomePage = () => {
                             </Box>
                         </Grid>
                     ))}
+                    {events.length === 0 && (
+                        <Box>
+                            <Typography> There aren't any events yet. <Button component={Link} to={`/create-event`} variant="contained" color="primary">Create One Now?</Button></Typography>
+                            
+                        </Box>
+                    )}
                 </Grid>
             </Box>
         </>

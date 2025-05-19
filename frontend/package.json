@@ -15,13 +15,17 @@
     "@mui/material": "^7.1.0",
     "@mui/x-date-pickers": "^8.3.1",
     "axios": "^1.9.0",
+    "barcode-detector": "^3.0.4",
     "dayjs": "^1.11.13",
     "react": "^19.1.0",
+    "react-barcode-scanner": "^4.0.0",
     "react-dom": "^19.1.0",
+    "react-hot-toast": "^2.5.2",
     "react-router-dom": "6.30.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",
+    "@types/node": "^22.15.19",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
     "@vitejs/plugin-react": "^4.4.1",

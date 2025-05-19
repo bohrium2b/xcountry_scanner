@@ -2,6 +2,7 @@ import { createHashRouter, RouterProvider } from "react-router-dom";
 import { HomePage } from "./pages/HomePage.tsx";
 import { CreateEvent } from "./pages/CreateEvent.tsx";
 import { ViewEvent } from "./pages/ViewEvent.tsx";
+import { RecordResults } from "./pages/RecordResults.tsx";
 
 export const router = createHashRouter([
     {
@@ -19,7 +20,7 @@ export const router = createHashRouter([
     },
     {
         path: "/event/:id/record",
-        element: <div>Record Results</div>
+        element: <RecordResults />
     }
 ])
 
