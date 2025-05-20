@@ -4,6 +4,7 @@ from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import status
 import json
 
@@ -65,6 +66,7 @@ class EventViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
+    @csrf_exempt
     def create(self, request):
         """
         Create a new Event object.
@@ -90,6 +92,7 @@ class EventViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(event)
         return Response(serializer.data)
 
+    @csrf_exempt
     def update(self, request, pk=None):
         """
         Update an existing Event object.
@@ -111,6 +114,7 @@ class EventViewSet(viewsets.ModelViewSet):
         event.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+    @csrf_exempt
     @action(detail=True, methods=['post'])
     def post_results(self, request, pk=None):
         """

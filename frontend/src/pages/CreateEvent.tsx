@@ -2,7 +2,7 @@ import { AppBar, Button, Typography, Box, Grid, TextField, Toolbar, IconButton }
 
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
-import { getRootUri } from "../utils";
+import { getCsrfToken, getRootUri } from "../utils";
 import { type Event } from "../types";
 import axios from "axios";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
@@ -27,7 +27,7 @@ export const CreateEvent = () => {
     };
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        axios.post(`${getRootUri()}/api/events/`, {...event, id: null, date: event.date || ""}).then(response => {
+        axios.post(`${getRootUri()}/api/events/`, {...event, id: null, date: event.date || ""}, {"headers": {'X-CSRFToken': getCsrfToken()}}).then(response => {
             if (response.status === 201) {
                 navigate(`/event/${response.data.id}`);
             }

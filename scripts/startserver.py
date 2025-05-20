@@ -23,5 +23,15 @@ def build_and_copy_frontend():
     # Copy the build directory to the backend static folder
     shutil.copytree(build_dir, destination_dir)
 
+    # In the destination dir, apply patch to index.html
+    index_html_path = os.path.join(destination_dir, 'index.html')
+    with open(index_html_path, 'r') as file:
+        content = file.read()
+        content = content.replace('/assets/', 'assets/')
+    with open(index_html_path, 'w') as file:
+        file.write(content)
+    print(f"Frontend built and copied to {destination_dir}")
+
+
 if __name__ == "__main__":
     build_and_copy_frontend()

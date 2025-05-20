@@ -3,7 +3,7 @@ import { AppBar, Button, Typography, Box, Toolbar, IconButton, Table, TableCell,
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getRootUri } from "../utils";
+import { getRootUri, getCsrfToken } from "../utils";
 import { type Event, type Result } from "../types";
 import axios from "axios";
 import dayjs from "dayjs";
@@ -101,7 +101,7 @@ export const ViewEvent = () => {
                     </DialogContent>
                     <DialogActions>
                         <Button onClick={() => {setDeleteDialog(false)}} color="primary" variant="contained">Cancel</Button>
-                        <Button onClick={() => { axios.delete(`${getRootUri()}/api/events/${event.id}/`); navigate("/") }} color="error" variant="contained">Delete</Button>
+                        <Button onClick={() => { axios.delete(`${getRootUri()}/api/events/${event.id}/`, {headers: {"X-CSRFToken": getCsrfToken()}}); navigate("/") }} color="error" variant="contained">Delete</Button>
                     </DialogActions>
                 </Dialog>
             </Box>

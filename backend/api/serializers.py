@@ -3,6 +3,8 @@ import json
 # Get the application directory
 import os
 from django.conf import settings
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 # Ensure the results directory exists
 results_dir = os.path.join(settings.BASE_DIR, 'results')
@@ -58,6 +60,15 @@ class EventSerializer(serializers.ModelSerializer):
             'results': {'required': False}  # Make results field optional
         }
         
+        @method_decorator(csrf_exempt)
+        def dispatch(self, *args, **kwargs):
+            """
+            Decorator to exempt the view from CSRF verification.
+            This is useful for API endpoints that need to accept requests
+            from external sources without CSRF tokens.
+            """
+            return super().dispatch(*args, **kwargs)
+
         def results(self, obj):
             """
             The results field is a JSON file, given by 'results/id.json'.

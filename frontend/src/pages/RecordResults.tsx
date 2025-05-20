@@ -3,7 +3,7 @@ import { AppBar,  Typography, Box,  Toolbar, IconButton } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import { getRootUri } from "../utils";
+import { getRootUri, getCsrfToken } from "../utils";
 import { type Event, type Result } from "../types";
 import axios from "axios";
 import toast, {Toaster} from 'react-hot-toast';
@@ -60,7 +60,7 @@ export const RecordResults = () => {
             if (results.length <= 3) {
                 return;
             }
-            axios.post(`${getRootUri()}/api/events/${id}/post_results/`, results).then((response) => {
+            axios.post(`${getRootUri()}/api/events/${id}/post_results/`, results, {headers: {'X-CSRFToken': getCsrfToken()}}).then((response) => {
                 if (response.status === 200) {
                     console.log("Results pushed successfully");
                     setResults([]);
