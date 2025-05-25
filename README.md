@@ -25,7 +25,7 @@ The backend is on Django. In order to access the app for development testing, yo
 
 Inside your Python shell, run `python3 manage.py createsuperuser`. Make sure you NEVER commit `db.sqlite3`.
 
-Then, to run the localhost server, `python3 manage.py runserver`.
+Then, to run the localhost server, `python3 manage.py runserver [your_ip]:8000`.
 
 
 ## Roadmap
