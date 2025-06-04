@@ -15,9 +15,9 @@ In this directory, run `poetry install` and `poetry shell`. If it doesn't work, 
 
 In `frontend/` run `pnpm install`. If it doesn't work, try running with sudo.
 
-Then in `backend/` run `python3 manage.py makemigrations` and `python3 manage.py migrate`.
+Then in `backend/` run `python3 manage.py makemigrations` and `python3 manage.py migrate`. If `makemigrations` has errors or has nothing to migrate, continue to `migrate`.
 
-In the `scripts`, run `python3 startserver.py` (or something similar like that) to copy and sync the frontend. It is a misleading name for now, TODO is to fix it.
+In the `scripts/`, run `python3 startserver.py` (or something similar like that) to copy and sync the frontend. It is a misleading name for now, TODO is to fix it.
 
 Run `python3 manage.py collectstatic` to get the static files in one basket, then the same thing follows:
 
