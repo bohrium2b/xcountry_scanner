@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'api',  # Your app name
     'account',
-    'main'
+    'main',
+    'testlist'
 ]
 
 # Allow embedding in iframes

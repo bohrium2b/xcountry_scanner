@@ -1,11 +1,12 @@
 import axios from "axios";
 import { AppBar, Typography, Box, Button, Toolbar } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useState } from "react"
+import { useState, Suspense } from "react"
 import { useEffect } from "react";
 import { getRootUri } from "../utils";
 import { type Event } from "../types";
 import { Grid } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import dayjs from "dayjs";
 
 export const HomePage = () => {
@@ -30,6 +31,7 @@ export const HomePage = () => {
 
     return (
         <>
+            <Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}><CircularProgress /></Box>}>
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" sx={{flexGrow: 1}}>Event Management</Typography>
@@ -60,7 +62,10 @@ export const HomePage = () => {
                     )}
                 </Grid>
             </Box>
+            </Suspense>
         </>
     )
 
 }
+
+export default HomePage;

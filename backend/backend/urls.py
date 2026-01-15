@@ -23,5 +23,6 @@ urlpatterns = [
     path('api/', include('api.urls')),  # Uncomment this line to include your API URLs
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),  # Uncomment this line to include the DRF authentication URLs
     path('account/', include('account.urls')),  # Uncomment this line to include your account URLs
-    path('', include('main.urls'))
+    path('', include('main.urls')),
+    path('testlist/', include('testlist.urls')),  # Include the testlist app URLs
 ]

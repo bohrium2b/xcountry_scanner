@@ -1,0 +1,79 @@
+<h4>Map CSV Columns to User Fields</h4>
+<form method="post" action="{% url 'testlist:index' %}" id="column_mapping_form">
+    {% csrf_token %}
+    <div class="mb-3">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User Field</th>
+                    <th>CSV Column</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for field in user_fields %}
+                <tr>
+                    <td>{{ field }}</td>
+                    <td>
+                        <select name="column_mapping[{{ field }}]" class="form-select">
+                            <option value="">Select Column</option>
+                            {% for column in column_names %}
+                            <option value="{{ column }}">{{ column }}</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <input type="hidden" name="csv_file" value="{{ csv_file }}">
+    <button id="save-mapping" type="button" onclick="saveMapping();return false;" class="btn btn-primary">Save Mapping</button>
+<script>
+// Handle form submission to generate PDF
+function saveMapping() {
+
+    console.log('Form submitted'); // Debugging line to check if the form is submitted
+
+    const form = document.getElementById('column_mapping_form');
+    const url = form.getAttribute('action');
+    const formData = new FormData(form);
+
+    // Collate the column mapping data
+    const columnMapping = {};
+    formData.forEach((value, key) => {
+        if (key.startsWith('column_mapping[')) {
+            const field = key.replace('column_mapping[', '').replace(']', '');
+            columnMapping[field] = value;
+        }
+    });
+    console.log('Column Mapping:', columnMapping); // Debugging line to check the column mapping
+
+    // Add the column mapping to the form data
+    formData.set('column_mapping', JSON.stringify(columnMapping));
+
+    // Send the form data to the server
+    fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        const downloadUrl = URL.createObjectURL(blob);
+        const link = document.getElementById('download-link');
+        link.href = downloadUrl;
+        link.style.display = 'inline-block';
+        link.download = "result.pdf";
+    })
+    .catch(error => console.error('Error:', error));
+}
+</script>
+</div>
+</form>
+
+<div id="download-pdf" class="mt-4">
+    <h4>Download PDF</h4>
+    <a href="" id="download-link" class="btn btn-success" style="display: none;">Download PDF</a>
+</div>

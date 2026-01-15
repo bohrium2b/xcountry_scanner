@@ -1,7 +1,7 @@
-import { AppBar, Button, Typography, Box, Toolbar, IconButton, Table, TableCell, TableHead, TableBody, TableRow, TableContainer, Paper, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from "@mui/material";
+import { AppBar, Button, Typography, Box, Toolbar, IconButton, Table, TableCell, TableHead, TableBody, TableRow, TableContainer, Paper, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, CircularProgress } from "@mui/material";
 
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useEffect } from "react";
 import { getRootUri, getCsrfToken } from "../utils";
 import { type Event, type Result } from "../types";
@@ -40,6 +40,7 @@ export const ViewEvent = () => {
     }, [id])
     return (
         <>
+            <Suspense fallback={<Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}><CircularProgress /></Box>}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton component={Link} to={"/"} color="inherit"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#ffffff"><path d="m313-440 224 224-57 56-320-320 320-320 57 56-224 224h487v80H313Z" /></svg></IconButton>
@@ -105,6 +106,9 @@ export const ViewEvent = () => {
                     </DialogActions>
                 </Dialog>
             </Box>
+            </Suspense>
         </>
     )
 }
+
+export default ViewEvent;

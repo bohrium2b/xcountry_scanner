@@ -155,3 +155,15 @@ class EventViewSet(viewsets.ModelViewSet):
         except FileNotFoundError:
             return Response({'error': 'Results file not found'}, status=status.HTTP_404_NOT_FOUND)
     
+    @action(detail=True, methods=['get'])
+    def results_csv(self, request, pk=None):
+        """
+        Return results as a CSV file.
+        """
+        event = self.get_object()
+        try:
+            with open(f"{results_dir}/{event.id}.json", "r") as f:
+                results = json.load(f)
+        except FileNotFoundError:
+            return Response({'error': 'Results file not found'}, status=status.HTTP_404_NOT_FOUND)
+    

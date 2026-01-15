@@ -1,8 +1,10 @@
 import { createHashRouter, RouterProvider } from "react-router-dom";
 import { HomePage } from "./pages/HomePage.tsx";
-import { CreateEvent } from "./pages/CreateEvent.tsx";
-import { ViewEvent } from "./pages/ViewEvent.tsx";
 import { RecordResults } from "./pages/RecordResults.tsx";
+import {lazy} from "react";
+
+const CreateEvent = lazy(() => import("./pages/CreateEvent.tsx"));
+const ViewEvent = lazy(() => import("./pages/ViewEvent.tsx"));
 
 export const router = createHashRouter([
     {
