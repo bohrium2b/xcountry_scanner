@@ -23,7 +23,7 @@ Run `python3 manage.py collectstatic` to get the static files in one basket, the
 
 The backend is on Django. In order to access the app for development testing, you need to create an account/admin through the CLI.
 
-Inside your Python shell, run `python3 manage.py createsuperuser`. Make sure you NEVER commit `db.sqlite3`.
+Inside your Python shell, run `python3 manage.py createsuperuser` (or use the default credentials `admin` as username and `admin` as password). Make sure you NEVER commit `db.sqlite3`.
 
 Then, to run the localhost server, `python3 manage.py runserver [your_ip]:8000`.
 

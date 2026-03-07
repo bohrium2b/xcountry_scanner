@@ -1,0 +1,6 @@
+2026-03-07
+- Set up project dependencies using Poetry and pnpm.
+- Applied initial Django database migrations.
+- Built the frontend and successfully ran `startserver.py` and `collectstatic`.
+- Verified local server functionality and created a superuser account (username `admin`, password `admin`) for easier testing.
+- Documented further development considerations focused on API security and improving the data storage mechanism for events and results.
