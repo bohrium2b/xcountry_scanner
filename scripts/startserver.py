@@ -10,7 +10,9 @@ def build_and_copy_frontend():
     backend_static_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '../backend/main/static/main/'))
 
     # Build the frontend
-    subprocess.run(['pnpm', 'run', 'build'], cwd=frontend_dir, check=True)
+    currentenv = os.environ.copy()
+    currentenv["NODE_ENV"] = 'development'
+    subprocess.run(['pnpm', 'run', 'build', '--mode', 'development'], cwd=frontend_dir, env=currentenv, check=True)
 
     # Define source and destination paths
     build_dir = os.path.join(frontend_dir, 'dist')

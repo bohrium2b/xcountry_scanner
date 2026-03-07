@@ -1,0 +1,35 @@
+{% extends "account/layout.html" %}
+{% load static %}
+{% block title %}
+XCResults - Test List
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Barcode List Generator</h1>
+    <p>Upload a CSV file to generate barcodes for users.</p>
+    <form method="post" enctype="multipart/form-data" hx-post="{% url 'testlist:index' %}" hx-target="#column-mapping" hx-swap="innerHTML" hx-include="[name=csrfmiddlewaretoken]" hx-encoding="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label for="csv_file" class="form-label">CSV File</label>
+            <input type="file" class="form-control" id="csv_file" name="csv_file" accept=".csv" required>
+        </div>
+        <button type="submit" class="btn btn-primary" hx-post="{% url 'testlist:index' %}" hx-target="#column-mapping">Upload</button>
+    </form>
+    <div id="column-mapping" class="mt-4">
+    </div>
+</div>
+<script>
+    document.getElementById('csv_file').addEventListener('change', function(event) {
+    const fileInput = event.target;
+    const file = fileInput.files[0]; // Get the first selected file
+    if (file) {
+        console.log(`Selected file: ${file.name}`); // Log the file name
+        // Optionally, display the file name in the UI
+        const fileNameDisplay = document.createElement('p');
+        fileNameDisplay.textContent = `Selected file: ${file.name}`;
+        fileInput.parentElement.appendChild(fileNameDisplay);
+    }
+});
+</script>
+{% endblock %}

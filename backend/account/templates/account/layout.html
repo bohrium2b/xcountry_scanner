@@ -38,6 +38,16 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="{% url 'main:backoffice' %}" hx-get="{% url 'main:backoffice' %}" hx-target="body" hx-push-url="true" hx-swap="outerHTML">
+                            <i class="bi bi-house-door" style="font-size: 1.2rem; margin-right: 5px;"></i> Backoffice
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="{% url 'testlist:index' %}" hx-get="{% url 'testlist:index' %}" hx-target="body" hx-push-url="true" hx-swap="outerHTML">
+                            <i class="bi bi-list-ul" style="font-size: 1.2rem; margin-right: 5px;"></i> Barcode Generator
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link d-flex align-items-center" hx-get="{% url 'account:logout' %}" hx-target="body" hx-push-url="true" hx-swap="outerHTML" href="{% url 'account:logout' %}">
                             <i class="bi bi-box-arrow-right" style="font-size: 1.2rem; margin-right: 5px;"></i> Logout
                         </a>
