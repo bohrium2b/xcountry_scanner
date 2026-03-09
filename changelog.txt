@@ -4,3 +4,7 @@
 - Built the frontend and successfully ran `startserver.py` and `collectstatic`.
 - Verified local server functionality and created a superuser account (username `admin`, password `admin`) for easier testing.
 - Documented further development considerations focused on API security and improving the data storage mechanism for events and results.
+
+2026-03-09
+- Formatted README.md with headings, code blocks, and structured lists for enhanced readability.
+- Fixed missing python-barcode dependency causing ModuleNotFoundError during createsuperuser.
