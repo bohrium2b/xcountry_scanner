@@ -35,6 +35,7 @@ export const HomePage = () => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" sx={{flexGrow: 1}}>Event Management</Typography>
+                    <Button component="a" href="/testlist/" color="inherit">Barcode Generator</Button>
                     <Button component={Link} to="/create-event" color="inherit">Create Event</Button>
                 </Toolbar>
             </AppBar>

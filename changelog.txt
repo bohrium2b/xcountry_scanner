@@ -8,3 +8,8 @@
 2026-03-09
 - Formatted README.md with headings, code blocks, and structured lists for enhanced readability.
 - Fixed missing python-barcode dependency causing ModuleNotFoundError during createsuperuser.
+
+2026-03-10
+- Added manual Student ID entry and recent results table to the scanner page.
+- Fixed barcode generator template rendering issue and added navigation link to the homepage.
+- Updated README.md to reflect the current version of the codebase, including the manual entry, results table, and barcode generator features.

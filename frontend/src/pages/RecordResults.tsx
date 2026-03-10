@@ -1,4 +1,4 @@
-import { AppBar,  Typography, Box,  Toolbar, IconButton } from "@mui/material";
+import { AppBar, Typography, Box, Toolbar, IconButton, TextField, Button, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 
 import { Link, useParams } from "react-router-dom";
 import { useState, Suspense, lazy } from "react";
@@ -17,6 +17,9 @@ export const RecordResults = () => {
     const [scannedData, setScannedData] = useState<string | null>(null);
     const [number, setNumber] = useState<number>(1);
     const [results, setResults] = useState<Result[]>([]);
+    const [serverResults, setServerResults] = useState<Result[]>([]);
+    const [manualId, setManualId] = useState("");
+
     const notify = (message: string) => {
         // Push a toast notification
         console.log(message);
@@ -49,10 +52,14 @@ export const RecordResults = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             axios.get(`${getRootUri()}/api/events/${id}/get_results/`).then((response) => {
-                // Get the last number
-                setNumber(response.data[response.data.length - 1].num + 1);
-            });
-        }, 10000);
+                if (response.data && response.data.length > 0) {
+                    setNumber(response.data[response.data.length - 1].num + 1);
+                    setServerResults(response.data.reverse()); // Store reversed for descending view
+                } else {
+                    setServerResults([]);
+                }
+            }).catch(e => console.log(e));
+        }, 3000);
 
         return () => clearInterval(interval);      
     }, [id]);
@@ -86,7 +93,25 @@ export const RecordResults = () => {
         setTimeout(() => {
             setScannedData(null);
         }, 2000);
-    }, [scannedData])
+    }, [scannedData]);
+
+    const handleManualSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!manualId.trim()) return;
+        const idNum = Number(manualId);
+        if (isNaN(idNum)) {
+            notify("Invalid ID, must be a number");
+            return;
+        }
+        if (results.some(result => result.id === idNum)) {
+            notify("Duplicate manual ID detected in queue");
+            return;
+        }
+        setScannedData(manualId);
+        setResults([...results, { "id": idNum, "num": number ? number : 0 }]);
+        setNumber(number + 1);
+        setManualId("");
+    };
 
     return (
         <>
@@ -126,6 +151,46 @@ export const RecordResults = () => {
                     </Suspense>
                 </Box>
                 
+                <Box sx={{ marginTop: 2, padding: 2, backgroundColor: "#FBFBFB", borderRadius: 2 }}>
+                    <form onSubmit={handleManualSubmit} style={{ display: 'flex', gap: '10px' }}>
+                        <TextField 
+                            label="Manual Student ID" 
+                            variant="outlined" 
+                            size="small" 
+                            value={manualId} 
+                            onChange={(e) => setManualId(e.target.value)} 
+                        />
+                        <Button type="submit" variant="contained" color="primary">Submit</Button>
+                    </form>
+                </Box>
+
+                <Box sx={{ marginTop: 2 }}>
+                    <Typography variant="h6">Recent Results</Typography>
+                    <TableContainer component={Paper} sx={{ marginTop: 1, maxHeight: 300 }}>
+                        <Table stickyHeader>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Place Number</TableCell>
+                                    <TableCell>Student ID</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {serverResults.map((result) => (
+                                    <TableRow key={`${result.id}-${result.num}`}>
+                                        <TableCell>{result.num}</TableCell>
+                                        <TableCell>{result.id}</TableCell>
+                                    </TableRow>
+                                ))}
+                                {serverResults.length === 0 && (
+                                    <TableRow>
+                                        <TableCell colSpan={2} align="center">No recent results</TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                </Box>
+
                 {scannedData && (
                     <Box
                         sx={{
